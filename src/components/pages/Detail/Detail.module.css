@@ -1,0 +1,148 @@
+.bookDetail{
+    display: flex;
+    height: 90vh;
+}
+
+.imgBook{
+    height: 450px;
+    margin-top: 70px;
+    margin-left: 150px;
+    box-shadow: 0px 10px 8px 5px rgba(182, 182, 182, 0.344);
+}
+
+.bookResume{
+    margin-left: 50px;
+}
+
+.bookTitle{
+    margin-top: 70px;
+    color:rgb(33, 33, 33)
+}
+
+.authorContainer{
+    display: flex;
+    gap: 25px;
+    /* align-items: end; */
+}
+
+.imgAuthor{
+    width: 60px;
+    border-radius: 50%;
+    border: 2px solid #7d5024;
+}
+
+.nameAuthor{
+    font-size: 1.1em;
+}
+
+.authorData{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.buttonMoreBooks{
+    background-color: #7d5024;
+    font-weight: 600;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    padding: 3px 10px;
+    cursor: pointer;
+}
+
+
+.ratingContainer{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cantReview{
+    margin-top: 20px;
+    font-weight: 500;
+    color: rgb(110, 110, 110);
+    display: flex;
+    gap: 5px;
+}
+
+.cant{
+    margin-top: 0px;
+}
+
+.iconUser{
+    margin-top: 4px;
+}
+
+.descBook{
+    width: 700px;
+    font-size: .9em;
+    color: rgb(43, 43, 43);
+    text-align: justify;
+}
+
+.tag{
+    line-height: 10px;
+    font-size: .9em;
+    font-weight: 600;
+    color: rgb(35, 35, 35);
+    /* background-color: red; */
+    width: 75px;
+}
+
+.buttonsContainer{
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+}
+
+.button2{
+    /* background-color: rgb(41, 155, 189); */
+    color: #2a1501;
+    font-weight: 600;
+    border: 0;
+    border: 2px solid #7d5024;
+    border-radius: 5px;
+    font-size: 1.3em;
+    padding: 5px 20px;
+    transition: .25s;
+    cursor: pointer;
+}
+
+.button2:hover{
+    color: white;
+    background-color: #7d5024;
+    border: 2px solid rgba(41, 154, 189, 0);
+}
+
+.button{
+    /* background-color: rgb(41, 155, 189); */
+    color: rgb(5, 78, 100);
+    font-weight: 600;
+    border: 0;
+    border: 2px solid rgb(41, 155, 189);
+    border-radius: 5px;
+    font-size: 1.3em;
+    padding: 5px 20px;
+    transition: .25s;
+    cursor: pointer;
+}
+
+.button:hover{
+    color: white;
+    background-color: rgb(41, 155, 189);
+    border: 2px solid rgba(41, 154, 189, 0);
+}
+
+.tagContainer{
+    display: flex;
+    gap: 20px;
+    height: 35px;
+    margin-top: -10px;
+}
+
+.tagValue{
+    font-size: .9em;
+    margin-top: 10px;
+    font-weight: 500;
+}

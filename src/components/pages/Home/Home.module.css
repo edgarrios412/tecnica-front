@@ -8,12 +8,19 @@
 }
 
 .bookPremium{
-    /* box-shadow: 0px 0px 20px 2px rgb(241, 241, 241); */
+    box-shadow: 0px 0px 8px 3px rgb(216, 216, 216);
     width: 400px;
     height: 220px;
     background-color: #7e9cff;
     border-radius: 10px;
     display: flex;
+    transition: .3s;
+}
+
+.bookPremium:hover{
+    scale: 1.05;
+    box-shadow: 0px 5px 8px 3px rgb(216, 216, 216);
+    cursor: pointer;
 }
 
 .visitors{
@@ -26,7 +33,17 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: red;
+    background-color: rgb(232, 232, 232);
+}
+
+.morePerson{
+    margin-top: 5px;
+    font-weight: 600;
+    color: white;
+    font-size: 1.25em;
+    /* background-color: red; */
+    width:40px;
+    height: 40px;
 }
 
 .titleBookPremium{
@@ -45,23 +62,26 @@
     margin: 25px;
     height: 170px;
     border-radius: 10px;
+    box-shadow: 0px 10px 7px 3px rgba(51, 51, 51, 0.333);
     /* background-color: red; */
 }
 
 .books{
     padding: 10px 0px 100px 0px;
     display: flex;
-    gap: 50px;
+    gap: 50px 100px;
+    /* column-gap: 10px; */
     margin-left: 50px;
     flex-flow: row wrap;
     /* background-color: red; */
-    width: 950px;
+    width: 100%;
+    margin-top: 30px;
 }
 
 .book{
     display: flex;
     /* background-color: red; */
-    width: 270px;
+    width: 320px;
     height: 120px;
     border-radius: 5px;
     align-items: start;
@@ -71,11 +91,11 @@
     width: 80px;
     height: 100%;
     border-radius: 5px;
-    background-color: blue;
+    /* background-color: blue; */
 }
 
 .bookInfo{
-    width: 175px;
+    width: 225px;
     margin-left: 15px;
     /* background-color: rgb(136, 100, 100); */
 }
@@ -88,4 +108,60 @@
 .bookAuthor{
     margin-top: -10px;
     color: rgb(63, 63, 63);
+}
+
+.busquedasContainer{
+    display: flex;
+}
+
+.filtroContainer{
+    background-color: red;
+    width: 300px;
+    height: 400px;
+    margin-bottom: 100px;
+}
+
+.filtros{
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.filtro{
+    margin-top: 22px;
+    padding: 4px 15px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: .25s;
+    cursor: pointer;
+}
+
+.filtro:hover{
+    border: 1px solid #7d5024;
+    color: #2c1702
+}
+
+.noLink{
+    text-decoration: none;
+}
+
+.noLink:visited{
+    color: black;
+}
+
+.pagination{
+    text-align: center;
+    padding-bottom: 100px;
+}
+
+.buttonMoreBooks{
+    padding: 5px 40px;
+    border: 0;
+    border-radius: 5px;
+    background-color: rgb(41, 155, 189);
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
 }
