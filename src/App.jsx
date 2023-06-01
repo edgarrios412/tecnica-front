@@ -1,7 +1,9 @@
+import Home from "./components/pages/Home/Home";
+
 function App() {
   return (
     <>
-      <h1>Hola mundo</h1>
+      <Home/>
     </>
   )
 }

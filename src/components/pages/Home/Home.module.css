@@ -1,0 +1,91 @@
+.sliderBooks{
+    display: flex;
+    padding: 0px 50px;
+    gap: 20px;
+}
+.titleSection{
+    margin-left: 50px;
+}
+
+.bookPremium{
+    /* box-shadow: 0px 0px 20px 2px rgb(241, 241, 241); */
+    width: 400px;
+    height: 220px;
+    background-color: #7e9cff;
+    border-radius: 10px;
+    display: flex;
+}
+
+.visitors{
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.imgProfile{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.titleBookPremium{
+    width: 200px;
+    margin-top: 20px;
+}
+
+.autorBookPremium{
+    font-size: .9em;
+    font-weight: 600;
+    color: rgb(59, 59, 59);
+}
+
+.imgBookPremium{
+    width: 120px;
+    margin: 25px;
+    height: 170px;
+    border-radius: 10px;
+    /* background-color: red; */
+}
+
+.books{
+    padding: 10px 0px 100px 0px;
+    display: flex;
+    gap: 50px;
+    margin-left: 50px;
+    flex-flow: row wrap;
+    /* background-color: red; */
+    width: 950px;
+}
+
+.book{
+    display: flex;
+    /* background-color: red; */
+    width: 270px;
+    height: 120px;
+    border-radius: 5px;
+    align-items: start;
+}
+
+.bookImg{
+    width: 80px;
+    height: 100%;
+    border-radius: 5px;
+    background-color: blue;
+}
+
+.bookInfo{
+    width: 175px;
+    margin-left: 15px;
+    /* background-color: rgb(136, 100, 100); */
+}
+
+.bookTitle{
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.bookAuthor{
+    margin-top: -10px;
+    color: rgb(63, 63, 63);
+}
