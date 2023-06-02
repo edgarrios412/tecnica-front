@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react';
 import axios from "axios"
 import Modal from "../../layout/Modal/Modal"
 import Select from 'react-select';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getBooks } from '../../../redux/actions';
 import { useDispatch } from 'react-redux';
+import {toast, Toaster} from "react-hot-toast"
 
 const Create = () => {
   const [img, setImg] = useState(null);
@@ -18,6 +19,7 @@ const Create = () => {
 
   const [book, setBook] = useState(null)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if(id){
@@ -67,9 +69,9 @@ const Create = () => {
   }
 
   const submit = () => {
-    console.log(form)
     axios.post("/book", form)
-    alert("Enviado")
+    .then(() => toast.success('Libro creado exitosamente'),() => toast.error('Ha ocurrido un error'))
+    setTimeout(() =>navigate("/"),2000)
   }
 
   const changeUser = (e) => {
@@ -78,7 +80,6 @@ const Create = () => {
 
   const changeModal = (url) => {
     setModal(false)
-    // alert(url)
     setImg(url)
     setForm({
       ...form,
@@ -88,21 +89,25 @@ const Create = () => {
 
   const deleteBook = () => {
     axios.delete(`/book/${id}`)
-    .then(() => alert("Eliminado"))
+    .then(() => toast.success('Libro eliminado exitosamente'))
     axios.get("/book/all")
     .then(data => dispatch(getBooks(data.data)))
+    setTimeout(() => navigate("/"),2000)
   }
 
   const updateBook = () => {
-    console.log(form)
     axios.put(`/book/${id}`, form)
-    .then(() => alert("Editado"))
+    .then(() => toast.success('Libro editado exitosamente'))
   }
 
   return(
     <>
     { modal && <Modal fn={changeModal} url={true}/>}
     <Nav/>
+    <Toaster
+  position="top-center"
+  reverseOrder={true}
+/>
     { id ? <div className={style.bookDetail}>
         { img ? <img src={img} className={style.imgBook} onClick={() => setImg(null)}/> :
         <div className={style.noImgBook} onClick={() => setModal(true)}>

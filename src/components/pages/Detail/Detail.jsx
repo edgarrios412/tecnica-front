@@ -95,7 +95,7 @@ const Detail = () => {
         {/* </div> */}
         <div className={style.buttonsContainer}>
           <button className={style.button}>Leer ahora</button>
-          <Link to={`/edit/${id}`} ><button className={style.button2}>Editar libro</button></Link>
+          <Link to={`/edit/${id}`} ><button className={style.button2}>Editar</button></Link>
         </div>
         </div>
       </div>:<div className={style.loadingContainer}></div>}

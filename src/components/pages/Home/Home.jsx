@@ -9,7 +9,7 @@ import libro4 from "../../../assets/libro4.jpg"
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {filterBooks, findBooks, getBooks, orderBy} from "../../../redux/actions"
 import axios from "axios"
 import {AiOutlineSearch} from "react-icons/ai"
@@ -25,7 +25,7 @@ const Home = () => {
   const books = useSelector(state => state.books)
   const search = useSelector(state => state.search)
   const bestBooks = useSelector(state => state.bestBooks)
-  console.log(bestBooks)
+  const [width, setWidth] = useState()
   const container = {
     hidden:{opacity:0},
     show:{
@@ -35,13 +35,7 @@ const Home = () => {
       }
     }
   }
-
-  useEffect(() => {
-    console.log("Cambio books")
-  },[books])
-
-  const colors = ["#d5edb9","#c4bdf3","#fbe8a4","#ffc198","#fac9dc"]
-
+  
   const settings = {
     infinite: true,
     slidesToScroll: 1,
@@ -53,6 +47,31 @@ const Home = () => {
       margin:"0px 50px",
     }
   };
+  if (window.innerWidth < 850) {
+    settings.slidesToShow = 1;
+  } else if (window.innerWidth < 1200) {
+    settings.slidesToShow = 2;
+  } else if (window.innerWidth > 1200) {
+    settings.slidesToShow = 3;
+  }
+  const handleSize = () => {
+    setWidth(window.innerWidth)
+    if(width <= 1000){
+      // settings.slidesToShow = 1
+      // console.log(settings)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleSize)
+
+    return()=> {
+      window.removeEventListener("resize", handleSize)
+    }
+  })
+
+  const colors = ["#d5edb9","#c4bdf3","#fbe8a4","#ffc198","#fac9dc"]
+
 
   const itemAnimado = {
     hidden:{ opacity:0, scale:0},

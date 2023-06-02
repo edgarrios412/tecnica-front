@@ -92,4 +92,11 @@
     color: white;
     background-color: #7d5024;
     border: 2px solid rgba(41, 154, 189, 0);
+    /* width: 100%; */
+}
+
+@media screen and (max-width:700px){
+    .textReview{
+        padding: 0px 10px;
+    }
 }

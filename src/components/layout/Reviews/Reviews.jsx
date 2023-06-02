@@ -12,7 +12,7 @@ const Reviews = ({reviews, fn}) => {
   const settings = {
     infinite: true,
     slidesToScroll: 1,
-    slidesToShow: 3,
+    slidesToShow: 2,
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
@@ -20,6 +20,14 @@ const Reviews = ({reviews, fn}) => {
       margin:"0px 100px",
     }
   };
+
+  if (window.innerWidth < 600) {
+    settings.slidesToShow = 1;
+  } else if (window.innerWidth < 900) {
+    settings.slidesToShow = 2;
+  } else if (window.innerWidth > 900) {
+    settings.slidesToShow = 3;
+  }
 
   return (
     <div className={style.reviewsContainer}>
@@ -52,7 +60,6 @@ const Reviews = ({reviews, fn}) => {
         </div>)}
         </Slider>}
       <button className={style.myReview} onClick={fn}>Quiero dejar mi opinión</button>
-      <Modal/>
     </div>
   );
 };

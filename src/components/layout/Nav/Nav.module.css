@@ -103,3 +103,21 @@
     border: 0;
     text-decoration: none;
 }
+
+@media screen and (max-width:1200px){
+    .ul{
+        gap:0px;
+    }
+}
+
+@media screen and (max-width:700px){
+    .nameLogo{
+        display: none;
+    }
+}
+
+@media screen and (max-width:600px){
+    .nameUser{
+        display: none;
+    }
+}
