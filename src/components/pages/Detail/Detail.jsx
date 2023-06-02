@@ -13,6 +13,7 @@ import Modal from "../../layout/Modal/Modal"
 import { useDispatch } from 'react-redux';
 import { findBooks } from '../../../redux/actions';
 import { getBooks } from '../../../redux/actions';
+import {motion} from "framer-motion"
  
 const Detail = () => {
   const {id} = useParams()
@@ -56,12 +57,14 @@ const Detail = () => {
     getReviews()
   }
 
+
+
   return(
     <>
       {modal && <Modal fn={sendReview}/>}
       <Nav/>
       { book ? <div className={style.bookDetail}>
-        <img src={book.image} className={style.imgBook}/>
+        <motion.img layoutId={book.id} src={book.image} className={style.imgBook}/>
         <div className={style.bookResume}>
         <h2 className={style.bookTitle}>{book.title}</h2>
         <div className={style.authorContainer}>

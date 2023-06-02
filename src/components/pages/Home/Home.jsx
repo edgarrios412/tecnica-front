@@ -14,12 +14,28 @@ import {filterBooks, findBooks, getBooks} from "../../../redux/actions"
 import axios from "axios"
 import {AiOutlineSearch} from "react-icons/ai"
 import {MdOutlineClear} from "react-icons/md"
+import {motion} from "framer-motion"
 
 const Home = () => {
   const dispatch = useDispatch()
   const books = useSelector(state => state.books)
   const search = useSelector(state => state.search)
   const bestBooks = useSelector(state => state.bestBooks)
+
+  const container = {
+    hidden:{opacity:0},
+    show:{
+      opacity:1,
+      transition:{
+        staggerChildren:0.2
+      }
+    }
+  }
+
+  const itemAnimado = {
+    hidden:{ opacity:0, scale:0},
+    show:{opacity:1, scale:1}
+  }
 
   useEffect(() => {
     if(!search.length){
@@ -47,14 +63,14 @@ const Home = () => {
           <h3 className={style.titleBookPremium}>El quinto infierno</h3>
           <div className={style.autorBookPremium}>por Vicente Fernandez</div>
           <Rating style={{ maxWidth: 90 }} readOnly value={3} />
-          <div className={style.visitors}>
+          {/* <div className={style.visitors}>
             <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=yina" className={style.imgProfile}></img>
             <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=david" className={style.imgProfile}></img>
             <div className={style.morePerson}>+38</div>
-          </div>
+          </div> */}
           </div>
         </div></Link>
-        <div className={style.bookPremium} style={{backgroundColor:"#ff7e93"}}>
+        <div className={style.bookPremium} style={{backgroundColor:"#ecc58f"}}>
           <img src={libro4} className={style.imgBookPremium}></img>
           <div className={style.detailBookPremium}>
           <h3 className={style.titleBookPremium}>La historia de Rondha</h3>
@@ -74,7 +90,7 @@ const Home = () => {
           </div>
           </div>
         </div>
-        <div className={style.bookPremium} style={{backgroundColor:"#7ee7ff"}}>
+        <div className={style.bookPremium} style={{backgroundColor:"#9ccacc"}}>
           <img src={libro1} className={style.imgBookPremium}></img>
           <div className={style.detailBookPremium}>
           <h3 className={style.titleBookPremium}>El quinto infierno</h3>
@@ -128,10 +144,14 @@ const Home = () => {
       {/* <p className={style.filtro}>Categoria</p> */}
       </div>
       <div className={style.busquedasContainer}>
-      <div className={style.books}>
+      <motion.ul className={style.books}
+      variants={container}
+      initial="hidden"
+      animate="show"
+      >
         { books.map( book => { 
-          return(<Link className={style.noLink} to={`/book/${book.id}`} ><div className={style.book}>
-        <img src={book.image} className={style.bookImg}></img>
+          return(<Link className={style.noLink} to={`/book/${book.id}`} ><motion.li variants={itemAnimado} className={style.book}>
+        <motion.img layoutId={book.id} src={book.image} className={style.bookImg}></motion.img>
           <div className={style.bookInfo}>
             <h4 className={style.bookTitle}>{book.title}</h4>
             <h5 className={style.bookAuthor}>por {book.created}</h5>
@@ -139,8 +159,8 @@ const Home = () => {
   return ac + el.rating;
 }, 0)/book.reviews.length}/>
           </div>
-        </div></Link>)})}
-      </div>
+        </motion.li></Link>)})}
+      </motion.ul>
       </div>
       { books.length >= 10 && <div className={style.pagination}>
       <button className={style.buttonMoreBooks}>Cargar más</button>
