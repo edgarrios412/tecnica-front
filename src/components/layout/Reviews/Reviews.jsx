@@ -1,64 +1,39 @@
 import style from "./Reviews.module.css";
 import RatingStars from 'react-rating-stars-component';
+import { Rating } from '@smastrom/react-rating'
+import axios from "axios";
+import Modal from "../Modal/Modal";
 
-const Reviews = () => {
+const Reviews = ({reviews, fn}) => {
+
+  // const sendReview = async () => {
+  //   await axios.post("/review", {
+  //     name:"David",
+  //     content:"Te amo mi vida",
+  //     rating:5,
+  //     bookId:1
+  //   })
+  //   fn()
+  // }
+
   return (
     <div className={style.reviewsContainer}>
       <h2 className={style.titleSection}>Nuestros lectores opinaron</h2>
       <div className={style.reviews}>
-        <div className={style.review}>
+        { reviews &&
+        reviews.map( r => <div className={style.review}>
           <div className={style.reviewHeader}>
-            <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=anonimo" className={style.imgProfile}></img>
+            <img src={`https://api.dicebear.com/5.x/avataaars/svg?seed=${r.name}`} className={style.imgProfile}></img>
             <div className={style.userData}>
-              <p className={style.userName}>Anonimo</p>
-              <RatingStars
-            count={5}
-            // value={4}
-            size={18}
-            // onChange={handleRatingChange}
-            emptyIcon={<i className="far fa-star"></i>}
-            fullIcon={<i className="fas fa-star"></i>}
-          />
+              <p className={style.userName}>{r.name}</p>
+              <Rating readOnly style={{ maxWidth:80 }} value={r.rating}/>
             </div>
           </div>
-          <p className={style.textReview}>El libro es un asco, no lo compraria por nada del mundo inutiles, prefiero comprar una casa antes que esa porqueria</p>
-        </div>
-        <div className={style.review}>
-          <div className={style.reviewHeader}>
-            <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=anonimo" className={style.imgProfile}></img>
-            <div className={style.userData}>
-              <p className={style.userName}>Anonimo</p>
-              <RatingStars
-            count={5}
-            // value={4}
-            size={18}
-            // onChange={handleRatingChange}
-            emptyIcon={<i className="far fa-star"></i>}
-            fullIcon={<i className="fas fa-star"></i>}
-          />
-            </div>
-          </div>
-          <p className={style.textReview}>El libro es un asco, no lo compraria por nada del mundo inutiles, prefiero comprar una casa antes que esa porqueria</p>
-        </div>
-        <div className={style.review}>
-          <div className={style.reviewHeader}>
-            <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=anonimo" className={style.imgProfile}></img>
-            <div className={style.userData}>
-              <p className={style.userName}>Anonimo</p>
-              <RatingStars
-            count={5}
-            // value={4}
-            size={18}
-            // onChange={handleRatingChange}
-            emptyIcon={<i className="far fa-star"></i>}
-            fullIcon={<i className="fas fa-star"></i>}
-          />
-            </div>
-          </div>
-          <p className={style.textReview}>El libro es un asco, no lo compraria por nada del mundo inutiles, prefiero comprar una casa antes que esa porqueria</p>
-        </div>
+          <p className={style.textReview}>{r.content}</p>
+        </div>)}
       </div>
-      <button className={style.myReview}>Quiero dejar mi opinión</button>
+      <button className={style.myReview} onClick={fn}>Quiero dejar mi opinión</button>
+      <Modal/>
     </div>
   );
 };

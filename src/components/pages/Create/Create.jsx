@@ -2,14 +2,26 @@ import Nav from '../../layout/Nav/Nav';
 import style from './Create.module.css'
 import libro from "../../../assets/libro1.jpg" 
 import {AiOutlineCloudUpload} from "react-icons/ai"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios"
-
+import Modal from "../../layout/Modal/Modal"
 import Select from 'react-select';
+import { useParams } from 'react-router-dom';
 
 const Create = () => {
   const [img, setImg] = useState(null);
   const [user, setUser] = useState("Shakespeere");
+  const [modal, setModal] = useState(false)
+  const {id} = useParams()
+
+  const [book, setBook] = useState(null)
+
+  useEffect(() => {
+    if(id){
+      axios.get(`book/${id}`)
+      .then(data => {setBook(data.data);setImg(data.data.image)})
+    }
+  },[])
 
   const lang = [
     { value: '1', label: 'Español' },
@@ -24,13 +36,8 @@ const Create = () => {
     { value: '4', label: 'Adultos' }
   ]
 
-  const uploadImg = (e) => {
-    setImg("https://marketplace.canva.com/EAFC9kjhVO4/2/0/1003w/canva-portada-y-contraportada-de-libro-narraci%C3%B3n-moderna-negro-y-blanco-suMrBhSTQIc.jpg")
-  }
-
   const [form, setForm] = useState({
-    // genre:[1,2],
-    image:"https://marketplace.canva.com/EAFC9kjhVO4/2/0/1003w/canva-portada-y-contraportada-de-libro-narraci%C3%B3n-moderna-negro-y-blanco-suMrBhSTQIc.jpg"
+    image:img
   })
 
   const handleChange = (e) => {
@@ -66,12 +73,70 @@ const Create = () => {
     setUser(e.target.value)
   }
 
+  const changeModal = (url) => {
+    setModal(false)
+    // alert(url)
+    setImg(url)
+    setForm({
+      ...form,
+      image:url
+    })
+  }
+
+  const updateBook = () => {
+    console.log(form)
+    axios.put(`/book/${id}`, form)
+    .then(() => alert("Editado"))
+  }
+
   return(
     <>
+    { modal && <Modal fn={changeModal} url={true}/>}
     <Nav/>
-    <div className={style.bookDetail}>
+    { id ? <div className={style.bookDetail}>
         { img ? <img src={img} className={style.imgBook} onClick={() => setImg(null)}/> :
-        <div className={style.noImgBook} onClick={uploadImg}>
+        <div className={style.noImgBook} onClick={() => setModal(true)}>
+          <AiOutlineCloudUpload className={style.iconUpload}/>
+          <p className={style.textUpload}>Sube la portada de tu libro</p>
+        </div>}
+        <div className={style.bookResume}>
+        <input className={style.bookTitle} onChange={handleChange} name="title" placeholder={book?.title}></input>
+        <div className={style.authorContainer}>
+          <img className={style.imgAuthor} src={`https://api.dicebear.com/5.x/avataaars/svg?seed=${user}`}/>
+          <div className={style.authorData}>
+          <input onChange={(e) => {changeUser(e); handleChange(e)}} name="created" className={style.nameAuthor} placeholder={book?.created}></input>
+          </div>
+        </div>
+        <textarea className={style.descBook} onChange={handleChange} name="summary" placeholder={book?.summary}></textarea>
+        <div className={style.tagContainer}>
+        <p className={style.tag}>Idioma</p>
+        <Select name="lang" onChange={handleChangeLang} value={book?.lang} options={lang}/>
+        {/* <input className={style.tagValue} onChange={handleChange} name="lang" placeholder='Ingresa el idioma del libro'></input> */}
+        </div>
+        <div className={style.tagContainer}>
+        <p className={style.tag}>Generos</p>
+        <Select
+        onChange={changeGenre}
+        value={book?.genres}
+    isMulti
+    name="colors"
+    options={genres}
+    // className="basic-multi-select"
+    classNamePrefix="select"
+  />
+        {/* <input className={style.tagValue} placeholder='Ingresa los generos'></input> */}
+        </div>
+        <div className={style.tagContainer}>
+        <p className={style.tag}>Publicado</p>
+        <input type="date" className={style.tagValue} onChange={handleChange} name="date" placeholder='Ingresa la fecha DD/MM/AA'></input>
+        </div>
+        <div className={style.buttonsContainer}>
+          <button className={style.button} onClick={updateBook}>Guardar cambios</button>
+        </div>
+        </div>
+    </div> : <div className={style.bookDetail}>
+        { form.image ? <img src={form.image} className={style.imgBook} onClick={() => setImg(null)}/> :
+        <div className={style.noImgBook} onClick={() => setModal(true)}>
           <AiOutlineCloudUpload className={style.iconUpload}/>
           <p className={style.textUpload}>Sube la portada de tu libro</p>
         </div>}
@@ -110,7 +175,7 @@ const Create = () => {
           <button className={style.button} onClick={submit}>Subir libro</button>
         </div>
         </div>
-      </div>
+    </div>}
     </>
   )
 };

@@ -9,6 +9,8 @@ import {
     books: [],
     page: 1,
     allBooks:[],
+    bestBooks:[],
+    search:"",
   };
   
   const reducer = (state = initialState, {type,payload}) => {
@@ -17,7 +19,12 @@ import {
         return{
           ...state,
           books: payload,
-          allBooks: payload
+          allBooks: payload,
+          bestBooks: state.allBooks.sort((x, y) => y.reviews.reduce((ac, el) => {
+            return ac + el.rating;
+          }, 0) - x.reviews.reduce((ac, el) => {
+            return ac + el.rating;
+          }, 0))
         }
       }
       case FIND_BOOKS:{
@@ -26,7 +33,8 @@ import {
         return{
           ...state,
           books: payload.length > 0 ? sinrepe
-          : state.allBooks
+          : state.allBooks,
+          search:payload
         }
       }
       case FILTER_BOOKS: {

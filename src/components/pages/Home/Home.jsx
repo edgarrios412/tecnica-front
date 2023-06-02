@@ -18,10 +18,14 @@ import {MdOutlineClear} from "react-icons/md"
 const Home = () => {
   const dispatch = useDispatch()
   const books = useSelector(state => state.books)
+  const search = useSelector(state => state.search)
+  const bestBooks = useSelector(state => state.bestBooks)
 
   useEffect(() => {
+    if(!search.length){
     axios.get("/book/all")
     .then(data => dispatch(getBooks(data.data)))
+    }
   },[])
 
   const onInputChange = (e) => {
@@ -95,7 +99,7 @@ const Home = () => {
       <h2 className={style.titleSection}>Busquedas</h2>
       <div className={style.inputContainer}>
       <span className={style.iconLupa}><AiOutlineSearch/></span>
-      <input onChange={onInputChange} className={style.input} placeholder='¿Que estás buscando?'/>
+      <input onChange={onInputChange} value={search} className={style.input} placeholder='¿Que estás buscando?'/>
       </div>
       <select name="genre" className={style.filtro} onChange={changeFilter}>
         <option value="all" selected>Genero</option>
@@ -127,11 +131,13 @@ const Home = () => {
       <div className={style.books}>
         { books.map( book => { 
           return(<Link className={style.noLink} to={`/book/${book.id}`} ><div className={style.book}>
-        <img src={libro1} className={style.bookImg}></img>
+        <img src={book.image} className={style.bookImg}></img>
           <div className={style.bookInfo}>
             <h4 className={style.bookTitle}>{book.title}</h4>
             <h5 className={style.bookAuthor}>por {book.created}</h5>
-            <Rating readOnly style={{ maxWidth:80, marginTop:"-5px" }} value={4}/>
+            <Rating readOnly style={{ maxWidth:80, marginTop:"-5px" }} value={book.reviews?.length == 0 ? 0 : book.reviews.reduce((ac, el) => {
+  return ac + el.rating;
+}, 0)/book.reviews.length}/>
           </div>
         </div></Link>)})}
       </div>
