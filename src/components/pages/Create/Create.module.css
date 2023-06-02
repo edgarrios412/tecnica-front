@@ -185,7 +185,7 @@
     display: flex;
     gap: 20px;
     height: 35px;
-    margin-top: 0px;
+    margin-top: 15px;
 }
 
 .tagValue{
@@ -198,4 +198,9 @@
 
 .tagValue:focus{
     outline: 0;
+}
+
+.select{
+    margin-top: 7px;
+    height: 25px;
 }

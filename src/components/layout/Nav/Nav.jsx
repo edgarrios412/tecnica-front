@@ -13,10 +13,10 @@ const Nav = () => {
       <img className={style.logo} src={namelogo} style={{height:"20px"}}></img>
       {/* <p>Good<strong>Book</strong></p> */}
       </div></Link>
-      <div className={style.inputContainer}>
+      {/* <div className={style.inputContainer}>
       <span className={style.iconLupa}><AiOutlineSearch/></span>
       <input className={style.input} placeholder='¿Que estás buscando?'/>
-      </div>
+      </div> */}
       <ul className={style.ul}>
         <Link className={style.noLink} to="/"><li className={style.liBook}>Inicio</li></Link>
         <Link className={style.noLink} to="/new"><li className={style.liBook}>Subir libro</li></Link>

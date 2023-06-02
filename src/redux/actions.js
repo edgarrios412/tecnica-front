@@ -1,64 +1,33 @@
 import axios from "axios"
-export const GET_RECIPES = "GET_RECIPES";
-export const GET_DIETS = "GET_DIETS";
-export const FIND_RECIPES = "FIND_RECIPES";
-export const FILTER_RECIPES = "FILTER_RECIPES";
-export const GET_RECIPE = "GET_RECIPE";
-export const PAGINATION = "PAGINATION";
+export const GET_BOOKS = "GET_BOOKS";
+export const GET_GENRES = "GET_GENRES";
+export const FIND_BOOKS = "FIND_BOOKS";
+export const FILTER_BOOKS = "FILTER_BOOKS";
 export const ORDER_BY = "ORDER_BY";
-export const SET_PAGE = "SET_PAGE";
-export const SET_LOGGED = "SET_LOGGED";
-export const USER_LOGGED = "USER_LOGGED";
-export const FILTER_RECIPES_ING = "FILTER_RECIPES_ING";
 
-
-export const userLogged = ({id, name, username}) => {
+export const getBooks = () => {
     return (dispatch) => {
-        dispatch({ type: USER_LOGGED, payload: {id, name, username}})
+        axios.get(`/book/all`)
+        .then(data => dispatch({ type: GET_BOOKS, payload: data.data}))
     }
 }
 
-export const setPage = (page) => {
+export const getGenres = () => {
     return (dispatch) => {
-        dispatch({ type: SET_PAGE, payload: page})
-    }
-}
-
-export const setLogged = (bool) => {
-    return (dispatch) => {
-        dispatch({ type: SET_LOGGED, payload: bool})
-    }
-}
-
-export const getRecipes = (n) => {
-    return (dispatch) => {
-        axios.get(`/recipes/all`)
-        .then(data => dispatch({ type: GET_RECIPES, payload: [data.data[0], data.data[1]]}))
-    }
-}
-
-export const getDiets = () => {
-    return (dispatch) => {
-        dispatch({ type: GET_DIETS})
+        dispatch({ type: GET_GENRES})
     }
 }
 
 
-export const filterRecipes = (filter) => {
+export const filterBooks = (name, filter) => {
     return (dispatch) => {
-       dispatch({type: FILTER_RECIPES, payload: filter})
+       dispatch({type: FILTER_BOOKS, payload: [name, filter]})
     }
 }
 
-export const filterRecipesByIng = (filter) => {
+export const findBooks = (key) => {
     return (dispatch) => {
-       dispatch({type: FILTER_RECIPES_ING, payload: filter})
-    }
-}
-
-export const paginationRecipes = (page) => {
-    return (dispatch) => {
-       dispatch({type: PAGINATION, payload: page})
+       dispatch({type: FIND_BOOKS, payload: key})
     }
 }
 
@@ -66,11 +35,4 @@ export const orderBy = (by) => {
     return (dispatch) => {
        dispatch({type: ORDER_BY, payload: by})
     }
-}
-
-export const findRecipe = (title) => {
-    return (dispatch) => {
-        axios.get(`/recipes?name=${title}`)
-        .then(data => dispatch({type: FIND_RECIPES, payload: data.data}))
-     }
 }

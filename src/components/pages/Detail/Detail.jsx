@@ -4,48 +4,50 @@ import libro from "../../../assets/libro1.jpg"
 import RatingStars from 'react-rating-stars-component';
 import {BiUser} from "react-icons/bi"
 import Reviews from '../../layout/Reviews/Reviews';
+import { Rating } from '@smastrom/react-rating'
+import '@smastrom/react-rating/style.css'
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
  
 const Detail = () => {
+  const {id} = useParams()
+  const [book, setBook] = useState()
+  useEffect(() => {
+    axios.get(`book/${id}`)
+    .then(data => setBook(data.data))
+  },[])
   return(
     <>
       <Nav/>
-      <div className={style.bookDetail}>
+      { book ? <div className={style.bookDetail}>
         <img src={libro} className={style.imgBook}/>
         <div className={style.bookResume}>
-        <h2 className={style.bookTitle}>Hasta que el verano se acabe</h2>
+        <h2 className={style.bookTitle}>{book.title}</h2>
         <div className={style.authorContainer}>
-          <img className={style.imgAuthor} src="https://api.dicebear.com/5.x/avataaars/svg?seed=connor hamilton"/>
+          <img className={style.imgAuthor} src={`https://api.dicebear.com/5.x/avataaars/svg?seed=${book.created}`}/>
           <div className={style.authorData}>
-          <b className={style.nameAuthor}>Connor Hamilton</b>
+          <b className={style.nameAuthor}>{book.created}</b>
           <button className={style.buttonMoreBooks}>Mas libros del autor</button>
           </div>
         </div>
         <div className={style.ratingContainer}>
-        <RatingStars
-            count={5}
-            // value={4}
-            size={24}
-            // onChange={handleRatingChange}
-            emptyIcon={<i className="far fa-star"></i>}
-            fullIcon={<i className="fas fa-star"></i>}
-          />
+        <Rating style={{ maxWidth: 120, color:"red" }} value={3} />
           <p className={style.cantReview}><BiUser className={style.iconUser}/> <span className={style.cant}>6</span></p>
         </div>
-        <p className={style.descBook}>Novela rural que evoca al caribe como personaje legendario. Carácter popular, su respeto casi periodístico por el habla y las costumbres de los caribe. Sin embargo, desde el principio mismo del texto se percibe que no estamos ante un retrato localista o una exhaltación ingenua de un tipo social. El relato es moderno por su construcción y ritmo, por su tratamiento de los personajes, por la yuxtaposición de las escenas y por su descripción de la «épica» política. Los personajes parecen extrañamente implicados en los conflictos de su tiempo y a la vez distantes, obedeciendo a impulsos interiores que contrastan con una realidad de fondo.</p>
+        <p className={style.descBook}>{book.summary}</p>
         {/* <div className={style.}> */}
         <div className={style.tagContainer}>
         <p className={style.tag}>Idioma</p>
-        <p className={style.tagValue}>Castellano</p>
+        <p className={style.tagValue}>{book.lang}</p>
         </div>
         <div className={style.tagContainer}>
         <p className={style.tag}>Generos</p>
-        <p className={style.tagValue}>Accion</p>
-        <p className={style.tagValue}>Comedia</p>
-        <p className={style.tagValue}>Romance</p>
+        {book.genres.map( g => <p className={style.tagValue}>{g.name}</p>)}
         </div>
         <div className={style.tagContainer}>
         <p className={style.tag}>Publicado</p>
-        <p className={style.tagValue}>15/05/2005</p>
+        <p className={style.tagValue}>{book.date}</p>
         </div>
         {/* </div> */}
         <div className={style.buttonsContainer}>
@@ -53,7 +55,7 @@ const Detail = () => {
           <button className={style.button2}>Editar libro</button>
         </div>
         </div>
-      </div>
+      </div>:<div className={style.loadingContainer}></div>}
       <Reviews/>
     </>
   )

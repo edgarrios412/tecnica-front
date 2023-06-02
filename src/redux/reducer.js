@@ -1,94 +1,61 @@
 import {
-    GET_RECIPES,
-    GET_DIETS,
-    FILTER_RECIPES,
-    FIND_RECIPES,
-    PAGINATION,
+    GET_BOOKS,
+    FILTER_BOOKS,
     ORDER_BY,
-    SET_PAGE,
-    SET_LOGGED,
-    USER_LOGGED,
+    FIND_BOOKS
   } from "./actions";
   
   const initialState = {
-    user:{},
-    recipes: [],
-    filterRecipes: [],
-    orderRecipes: [],
-    recipe: {},
-    pagination: [],
-    diets:[],
-    filtrado: false,
-    order:"asc",
-    health: "mayor",
-    created: "api",
-    isLogged: false,
-    page: 1
+    books: [],
+    page: 1,
+    allBooks:[],
   };
   
   const reducer = (state = initialState, {type,payload}) => {
     switch (type) {
-      case USER_LOGGED:{
+      case GET_BOOKS:{
         return{
           ...state,
-          user: {...payload}
+          books: payload,
+          allBooks: payload
         }
       }
-      case GET_RECIPES: {
-        return {
-          ...state,
-          recipes: [...payload[0]],
-          filterRecipes: [...payload[0]],
-          diets: [...payload[1]]
-        };
-      }
-      case GET_DIETS: {
-        return {
-          ...state,
-          diets: state.recipes.diets.filter((item, index) => state.recipes.diets.indexOf(item) === index)
-        };
-      }
-      case PAGINATION:{
-          return{
-            ...state,
-            pagination: state.filterRecipes.slice(state.page*10-10,state.page*10),
-          }
-      }
-      case SET_LOGGED:{
-        return {
-          ...state,
-          isLogged:payload
-        }
-      }
-      case SET_PAGE:{
+      case FIND_BOOKS:{
+        const arr = [...state.books.filter(book => book.title.toLowerCase().includes(payload.toLowerCase())), ...state.books.filter(book => book.created.toLowerCase().includes(payload.toLowerCase()))]
+        const sinrepe = [...new Set(arr)]
         return{
           ...state,
-          page: payload
+          books: payload.length > 0 ? sinrepe
+          : state.allBooks
         }
       }
-      case FILTER_RECIPES: {
-        if(payload === "all"){
+      case FILTER_BOOKS: {
+        if(payload[1] === "all"){
           return {
             ...state,
-            filterRecipes: [...state.recipes],
-            filtrado: false
+            books: [...state.allBooks],
           };
+        }
+        if(payload[0] == "lang"){
+          return{
+            ...state,
+            books: state.allBooks.filter(b => b.lang.toLowerCase() == payload[1].toLowerCase()),
+          }
+        }
+        if(payload[0] == "genre"){
+        return {
+          ...state,
+          books: state.allBooks.filter(book => book.genres.filter(b => b.name.toLowerCase() == payload[1].toLowerCase()).length),
+        };
         }
         return {
           ...state,
-          filterRecipes: state.filterRecipes.filter(r => r.diets.includes(payload)),
-          filtrado: true
-        };
-      }
-      case FIND_RECIPES: {
-        return {
-          ...state,
-          filterRecipes: [...payload]
+          books: [...state.allBooks],
         };
       }
       case ORDER_BY:{
         switch(payload){
-        case "abc":{
+        case "rating":{
         if(state.order === "asc"){
         return{
           ...state,
@@ -103,7 +70,7 @@ import {
           }
         }
         }
-        case "health":{
+        case "date":{
           console.log(state.filterRecipes)
           if(state.health === "mayor"){
             return{

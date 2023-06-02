@@ -3,6 +3,10 @@
     height: 90vh;
 }
 
+.loadingContainer{
+    height: 90vh;
+}
+
 .imgBook{
     height: 450px;
     margin-top: 70px;
