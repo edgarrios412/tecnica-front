@@ -122,6 +122,7 @@ const Home = () => {
       <span className={style.iconLupa}><AiOutlineSearch/></span>
       <input onChange={onInputChange} value={search} className={style.input} placeholder='¿Que estás buscando?'/>
       </div>
+      <div className={style.containerFilter}>
       <select name="genre" className={style.filtro} onChange={changeFilter}>
         <option value="all" selected>Genero</option>
         <option value="accion">Accion</option>
@@ -134,7 +135,8 @@ const Home = () => {
         <option value="ingles">Ingles</option>
         <option value="frances">Frances</option>
       </select>
-      {/* <p className={style.filtro}>Clasificación</p> */}
+      </div>
+      <div className={style.containerFilter}>
       <select name="rating" className={style.filtro} onChange={orderBooks}>
         <option value="asc" selected>Mas relevantes</option>
         <option value="desc">Menos relevantes</option>
@@ -144,7 +146,8 @@ const Home = () => {
         <option value="asc">Mas recientes</option>
         <option value="desc">Mas antiguos</option>
       </select>
-      <button value="all" onClick={changeFilter} className={style.clear}><MdOutlineClear className={style.clearIcon}/></button>
+      </div>
+      <button value="all" onClick={changeFilter} className={style.clear}>{window.innerWidth > 1300 ? <MdOutlineClear className={style.clearIcon}/> : <p className={style.titleClear}>Limpiar filtros</p>}</button>
       {/* <p className={style.filtro}>Categoria</p> */}
       </div>
       <div className={style.busquedasContainer}>
