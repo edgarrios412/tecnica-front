@@ -257,8 +257,8 @@
 
 @media screen and (max-width:600px) {
     .descBook{
-        width: 390px;
-        max-width: 390px;
-        min-width: 390px;
+        width: 280px;
+        max-width: 280px;
+        min-width: 280px;
     }
 }
