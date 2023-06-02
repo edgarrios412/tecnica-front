@@ -11,20 +11,32 @@ import {
     allBooks:[],
     bestBooks:[],
     search:"",
+    order:false,
   };
   
   const reducer = (state = initialState, {type,payload}) => {
     switch (type) {
       case GET_BOOKS:{
+        const librosPromedio = payload.map(libro => {
+          if(libro.reviews.length == 0){
+            return {
+              ...libro,
+              promedio: 0
+            };
+          }
+          const totalReviews = libro.reviews.length;
+          const sumRating = libro.reviews.reduce((acumulado, review) => acumulado + review.rating, 0);
+          const promedio = sumRating / totalReviews;
+          return {
+            ...libro,
+            promedio: promedio
+          };
+        });
         return{
           ...state,
-          books: payload,
-          allBooks: payload,
-          bestBooks: state.allBooks.sort((x, y) => y.reviews.reduce((ac, el) => {
-            return ac + el.rating;
-          }, 0) - x.reviews.reduce((ac, el) => {
-            return ac + el.rating;
-          }, 0))
+          books: librosPromedio,
+          allBooks: librosPromedio,
+          bestBooks: librosPromedio.sort((libroA, libroB) => libroB.promedio - libroA.promedio)
         }
       }
       case FIND_BOOKS:{
@@ -62,53 +74,41 @@ import {
         };
       }
       case ORDER_BY:{
-        switch(payload){
+        switch(payload[0]){
         case "rating":{
-        if(state.order === "asc"){
+        if(payload[1] === "asc"){
         return{
           ...state,
-          filterRecipes: state.filterRecipes.sort((x, y) => x.title.localeCompare(y.title)),
-          order: "desc"
+          books: state.allBooks.sort((libroA, libroB) => libroB.promedio - libroA.promedio),
+          order:false,
         }
-        }else{
+        }
+        if(payload[1] === "desc"){
           return{
             ...state,
-            filterRecipes: state.filterRecipes.sort((x, y) => y.title.localeCompare(x.title)),
-            order: "asc"
+            books: [],
+            books: state.allBooks.sort((libroA, libroB) => libroA.promedio - libroB.promedio).slice(0,state.allBooks.length),
+            order:true,
           }
+        }
+        return{
+          ...state,
+          books: state.allBooks
         }
         }
         case "date":{
-          console.log(state.filterRecipes)
-          if(state.health === "mayor"){
-            return{
-              ...state,
-              filterRecipes: state.filterRecipes.sort((x, y) => x.healthScore - y.healthScore),
-              health: "menor"
+          const registrosOrdenados = state.allBooks.slice().sort((a, b) => {
+            if (payload[1] === 'asc') {
+              return new Date(b.createdAt) - new Date(a.createdAt);
+            } else {
+              return new Date(a.createdAt) - new Date(b.createdAt);
             }
-            }else{
-              return{
-                ...state,
-                filterRecipes: state.filterRecipes.sort((x, y) => y.healthScore - x.healthScore),
-                health: "mayor"
-              }
-            }
+          });
+          return{
+            ...state,
+            books: registrosOrdenados
           }
-        case "created":{
-          if(state.created === "user"){
-            return{
-              ...state,
-              filterRecipes: state.filterRecipes.sort((x, y) => x.created.localeCompare(y.created)),
-              created: "api"
-            }
-            }else{
-              return{
-                ...state,
-                filterRecipes: state.filterRecipes.sort((x, y) => y.created.localeCompare(x.created)),
-                created: "user"
-              }
-            }
-        }
+          }
         default:{break;}
       }break;
     }

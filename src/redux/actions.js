@@ -31,8 +31,8 @@ export const findBooks = (key) => {
     }
 }
 
-export const orderBy = (by) => {
+export const orderBy = (by, b) => {
     return (dispatch) => {
-       dispatch({type: ORDER_BY, payload: by})
+       dispatch({type: ORDER_BY, payload: [by,b]})
     }
 }

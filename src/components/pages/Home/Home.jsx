@@ -10,18 +10,22 @@ import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import {filterBooks, findBooks, getBooks} from "../../../redux/actions"
+import {filterBooks, findBooks, getBooks, orderBy} from "../../../redux/actions"
 import axios from "axios"
 import {AiOutlineSearch} from "react-icons/ai"
 import {MdOutlineClear} from "react-icons/md"
 import {motion} from "framer-motion"
+
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
   const dispatch = useDispatch()
   const books = useSelector(state => state.books)
   const search = useSelector(state => state.search)
   const bestBooks = useSelector(state => state.bestBooks)
-
+  console.log(bestBooks)
   const container = {
     hidden:{opacity:0},
     show:{
@@ -31,6 +35,24 @@ const Home = () => {
       }
     }
   }
+
+  useEffect(() => {
+    console.log("Cambio books")
+  },[books])
+
+  const colors = ["#d5edb9","#c4bdf3","#fbe8a4","#ffc198","#fac9dc"]
+
+  const settings = {
+    infinite: true,
+    slidesToScroll: 1,
+    slidesToShow: 3,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
+    style:{
+      margin:"0px 50px",
+    }
+  };
 
   const itemAnimado = {
     hidden:{ opacity:0, scale:0},
@@ -52,65 +74,29 @@ const Home = () => {
     dispatch(filterBooks(e.target.name,e.target.value))
   }
 
+  const orderBooks = (e) => {
+    dispatch(orderBy(e.target.name, e.target.value))
+  }
+
   return(
     <>
       <Nav/>
       <h2 className={style.titleSection}>Para ti</h2>
-      <div className={style.sliderBooks}>
-        <Link className={style.noLink} to="/book"><div className={style.bookPremium}>
-          <img src={libro2} className={style.imgBookPremium}></img>
+        <Slider {...settings}>
+        {bestBooks?.slice(0,5).map( (book,index) => <Link className={style.noLink} to={`/book/${book.id}`}><div style={{backgroundColor:colors[index]}} className={style.bookPremium}>
+          <img src={book.image} className={style.imgBookPremium}></img>
           <div className={style.detailBookPremium}>
-          <h3 className={style.titleBookPremium}>El quinto infierno</h3>
-          <div className={style.autorBookPremium}>por Vicente Fernandez</div>
-          <Rating style={{ maxWidth: 90 }} readOnly value={3} />
+          <h3 className={style.titleBookPremium}>{book.title}</h3>
+          <div className={style.autorBookPremium}>por {book.created}</div>
+          <Rating style={{ maxWidth: 90, marginTop:"10px" }} readOnly value={book.promedio} />
           {/* <div className={style.visitors}>
             <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=yina" className={style.imgProfile}></img>
             <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=david" className={style.imgProfile}></img>
             <div className={style.morePerson}>+38</div>
           </div> */}
           </div>
-        </div></Link>
-        <div className={style.bookPremium} style={{backgroundColor:"#ecc58f"}}>
-          <img src={libro4} className={style.imgBookPremium}></img>
-          <div className={style.detailBookPremium}>
-          <h3 className={style.titleBookPremium}>La historia de Rondha</h3>
-          <div className={style.autorBookPremium}>por Vicente Fernandez</div>
-          <RatingStars
-            count={5}
-            // value={4}
-            size={20}
-            // onChange={handleRatingChange}
-            emptyIcon={<i className="far fa-star"></i>}
-            fullIcon={<i className="fas fa-star"></i>}
-          />
-          <div className={style.visitors}>
-            <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=anonimo" className={style.imgProfile}></img>
-            <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=marcela" className={style.imgProfile}></img>
-            <div className={style.morePerson}>+38</div>
-          </div>
-          </div>
-        </div>
-        <div className={style.bookPremium} style={{backgroundColor:"#9ccacc"}}>
-          <img src={libro1} className={style.imgBookPremium}></img>
-          <div className={style.detailBookPremium}>
-          <h3 className={style.titleBookPremium}>El quinto infierno</h3>
-          <div className={style.autorBookPremium}>por Vicente Fernandez</div>
-          <RatingStars
-            count={5}
-            // value={4}
-            size={20}
-            // onChange={handleRatingChange}
-            emptyIcon={<i className="far fa-star"></i>}
-            fullIcon={<i className="fas fa-star"></i>}
-          />
-          <div className={style.visitors}>
-            <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=leidy" className={style.imgProfile}></img>
-            <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=fernando" className={style.imgProfile}></img>
-            <div className={style.morePerson}>+38</div>
-          </div>
-          </div>
-        </div>
-      </div>
+        </div></Link>)}
+        </Slider>
       <div className={style.filtros}>
       <h2 className={style.titleSection}>Busquedas</h2>
       <div className={style.inputContainer}>
@@ -130,15 +116,14 @@ const Home = () => {
         <option value="frances">Frances</option>
       </select>
       {/* <p className={style.filtro}>Clasificación</p> */}
-      <select className={style.filtro}>
-        <option selected>Relevancia</option>
-        <option>Mas relevantes</option>
-        <option>Menos relevantes</option>
+      <select name="rating" className={style.filtro} onChange={orderBooks}>
+        <option value="asc" selected>Mas relevantes</option>
+        <option value="desc">Menos relevantes</option>
       </select>
-      <select className={style.filtro}>
+      <select name="date" className={style.filtro} onChange={orderBooks}>
         <option selected>Fecha</option>
-        <option>Mas recientes</option>
-        <option>Mas antiguos</option>
+        <option value="asc">Mas recientes</option>
+        <option value="desc">Mas antiguos</option>
       </select>
       <button value="all" onClick={changeFilter} className={style.clear}><MdOutlineClear className={style.clearIcon}/></button>
       {/* <p className={style.filtro}>Categoria</p> */}
@@ -149,7 +134,7 @@ const Home = () => {
       initial="hidden"
       animate="show"
       >
-        { books.map( book => { 
+        {books.length ? books.map( book => { 
           return(<Link className={style.noLink} to={`/book/${book.id}`} ><motion.li variants={itemAnimado} className={style.book}>
         <motion.img layoutId={book.id} src={book.image} className={style.bookImg}></motion.img>
           <div className={style.bookInfo}>
@@ -159,7 +144,9 @@ const Home = () => {
   return ac + el.rating;
 }, 0)/book.reviews.length}/>
           </div>
-        </motion.li></Link>)})}
+        </motion.li></Link>)}):
+        <h1 className={style.notFound}>No encontramos ningun resultado{":("}</h1>
+        }
       </motion.ul>
       </div>
       { books.length >= 10 && <div className={style.pagination}>

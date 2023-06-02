@@ -7,6 +7,8 @@ import axios from "axios"
 import Modal from "../../layout/Modal/Modal"
 import Select from 'react-select';
 import { useParams } from 'react-router-dom';
+import { getBooks } from '../../../redux/actions';
+import { useDispatch } from 'react-redux';
 
 const Create = () => {
   const [img, setImg] = useState(null);
@@ -15,6 +17,7 @@ const Create = () => {
   const {id} = useParams()
 
   const [book, setBook] = useState(null)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if(id){
@@ -83,6 +86,13 @@ const Create = () => {
     })
   }
 
+  const deleteBook = () => {
+    axios.delete(`/book/${id}`)
+    .then(() => alert("Eliminado"))
+    axios.get("/book/all")
+    .then(data => dispatch(getBooks(data.data)))
+  }
+
   const updateBook = () => {
     console.log(form)
     axios.put(`/book/${id}`, form)
@@ -132,6 +142,7 @@ const Create = () => {
         </div>
         <div className={style.buttonsContainer}>
           <button className={style.button} onClick={updateBook}>Guardar cambios</button>
+          <button className={style.buttonDelete} onClick={deleteBook}>Borrar libro</button>
         </div>
         </div>
     </div> : <div className={style.bookDetail}>
