@@ -33,6 +33,7 @@ const Reviews = ({reviews, fn}) => {
     <div className={style.reviewsContainer}>
       <h2 className={style.titleSection}>Nuestros lectores opinaron</h2>
       <div className={style.reviews}>
+      { reviews?.length == 0 && <h2 className={style.notReview}>Aún no hay reseñas, sé el primero</h2>}
       { reviews?.length < 4 &&
         reviews.map( r => 
         <div className={style.review}>

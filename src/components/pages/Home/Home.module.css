@@ -251,6 +251,56 @@
     gap: 20px;
 }
 
+.descBookMini{
+    font-size: .8em;
+    font-weight: 500;
+    color: rgb(85, 85, 85);
+    margin: 0;
+    margin-top: 5px;
+    width: 200px;
+    height:40px;
+    /* background-color: red; */
+    display: flex;
+}
+
+.ratingContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: -20px;
+    /* background-color: red; */
+    height: 60px;
+}
+
+.cantReview{
+    margin-top: 20px;
+    font-weight: 500;
+    color: rgb(110, 110, 110);
+    display: flex;
+    gap: 5px;
+}
+
+.cant{
+    margin-top: 8px;
+}
+
+.iconUser{
+    margin-top: 12px;
+}
+
+.descBookBest{
+    font-size: .9em;
+    font-weight: 500;
+    color: rgb(85, 85, 85);
+    margin: 0;
+    margin-top: 5px;
+    width: 200px;
+    height:70px;
+    /* background-color: red; */
+    display: flex;
+    overflow: hidden;
+}
+
 .titleClear{
     font-size: 1.2em;
     line-height: 10px;

@@ -14,6 +14,7 @@ import {motion} from "framer-motion"
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import {BiUser} from "react-icons/bi"
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -32,7 +33,7 @@ const Home = () => {
   }
   
   const settings = {
-    infinite: true,
+    infinite: false,
     slidesToScroll: 1,
     slidesToShow: 1,
     autoplay: true,
@@ -42,6 +43,9 @@ const Home = () => {
       margin:"0px 50px",
     }
   };
+  if(bestBooks?.length > 2){
+    settings.infinite = true;
+  }
   if (window.innerWidth < 850) {
     settings.slidesToShow = 1;
   } else if (window.innerWidth < 1200) {
@@ -81,14 +85,18 @@ const Home = () => {
     <>
       <Nav/>
       <h2 className={style.titleSection}>Para ti</h2>
-      <div style={{margin:"0px 50px"}}>
-        <Slider {...settings}>
-        {bestBooks?.slice(0,5).map( (book,index) => <Link className={style.noLink} to={`/book/${book.id}`}><div style={{backgroundColor:colors[index]}} className={style.bookPremium}>
+      <div style={{margin:"0px 0px"}}>
+        <Slider key={Math.random()} {...settings}>
+        {bestBooks?.slice(0,5).map( (book,index) => <Link key={index} className={style.noLink} to={`/book/${book.id}`}><div key={index} style={{backgroundColor:colors[index]}} className={style.bookPremium}>
           <img src={book.image} className={style.imgBookPremium}></img>
           <div className={style.detailBookPremium}>
           <h3 className={style.titleBookPremium}>{book.title}</h3>
           <div className={style.autorBookPremium}>por {book.created}</div>
+          <div className={style.ratingContainer}>
           <Rating style={{ maxWidth: 90, marginTop:"10px" }} readOnly value={book.promedio} />
+          <p className={style.cantReview}><BiUser className={style.iconUser}/> <span className={style.cant}>{book?.reviews?.length}</span></p>
+          </div>
+          <p className={style.descBookBest}>{book.summary.slice(0, 60) + '...'}</p>
           </div>
         </div></Link>)}
         </Slider>
@@ -134,8 +142,8 @@ const Home = () => {
       initial="hidden"
       animate="show"
       >
-        {books.length ? books.map( book => { 
-          return(<Link className={style.noLink} to={`/book/${book.id}`} ><motion.li variants={itemAnimado} className={style.book}>
+        {books.length ? books.map( (book, key) => { 
+          return(<Link key={key} className={style.noLink} to={`/book/${book.id}`} ><motion.li variants={itemAnimado} className={style.book}>
         <motion.img layoutId={book.id} src={book.image} className={style.bookImg}></motion.img>
           <div className={style.bookInfo}>
             <h4 className={style.bookTitle}>{book.title}</h4>
@@ -143,6 +151,7 @@ const Home = () => {
             <Rating readOnly style={{ maxWidth:80, marginTop:"-5px" }} value={book.reviews?.length == 0 ? 0 : book.reviews.reduce((ac, el) => {
   return ac + el.rating;
 }, 0)/book.reviews.length}/>
+<b className={style.descBookMini}>{book.summary.slice(0, 55) + '...'}</b>
           </div>
         </motion.li></Link>)}):
         <h1 className={style.notFound}>No encontramos ningun resultado{":("}</h1>

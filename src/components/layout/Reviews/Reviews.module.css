@@ -95,6 +95,11 @@
     /* width: 100%; */
 }
 
+.notReview{
+    color: rgb(168, 168, 168);
+    font-weight: 500;
+}
+
 @media screen and (max-width:700px){
     .textReview{
         padding: 0px 10px;
