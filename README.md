@@ -4,10 +4,10 @@
 
 ## Comenzando 🚀
 
-Abre tu terminal de preferencia y ejecuta
+Abre tu terminal y ejecuta el siguiente comando
 
 ```
-git clone URL
+git clone https://github.com/edgarrios412/tecnica-front.git
 ```
 
 Espera a que el proyecto se clone y procede con la instalación
