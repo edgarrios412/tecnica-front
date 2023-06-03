@@ -7,7 +7,7 @@ import store from "./redux/store"
 import { Provider } from "react-redux"
 import axios from "axios"
 
-axios.defaults.baseURL = "http://localhost:3002"
+axios.defaults.baseURL = "https://backend-rjg5.onrender.com"
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
