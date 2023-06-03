@@ -20,7 +20,7 @@
 .modalContainer{
     margin-top: 10%;
     width: 350px;
-    height: 400px;
+    height: 450px;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -73,6 +73,7 @@
 .rating{
     max-width: 150px;
     margin: 0 auto;
+    margin-top: 30px;
 }
 
 .button{

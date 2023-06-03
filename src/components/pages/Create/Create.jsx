@@ -10,6 +10,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getBooks } from '../../../redux/actions';
 import { useDispatch } from 'react-redux';
 import {toast, Toaster} from "react-hot-toast"
+import validation from './validation';
+import { Tooltip } from 'react-tooltip'
+import 'react-tooltip/dist/react-tooltip.css';
+import { useRef } from 'react';
 
 const Create = () => {
   const [img, setImg] = useState(null);
@@ -17,9 +21,11 @@ const Create = () => {
   const [modal, setModal] = useState(false)
   const {id} = useParams()
 
+
   const [book, setBook] = useState(null)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [sms, setSms] = useState(false)
 
   useEffect(() => {
     if(id){
@@ -42,7 +48,13 @@ const Create = () => {
   ]
 
   const [form, setForm] = useState({
-    image:img
+    image:img,
+    title:"",
+    genres:[],
+    created:"",
+    date:"",
+    lang:"",
+    summary:""
   })
 
   const handleChange = (e) => {
@@ -69,9 +81,15 @@ const Create = () => {
   }
 
   const submit = () => {
-    axios.post("/book", form)
-    .then(() => toast.success('Libro creado exitosamente'),() => toast.error('Ha ocurrido un error'))
-    setTimeout(() =>navigate("/"),2000)
+    if(Object.entries(validation(form)).length == 0){
+      console.log(validation(form))
+      axios.post("/book", form)
+      .then(() => toast.success('Libro creado exitosamente'),() => toast.error('Ha ocurrido un error'))
+    }else{
+      setSms(true)
+      toast.error('Debes llenar el formulario')
+    }
+    // setTimeout(() =>navigate("/"),2000)
   }
 
   const changeUser = (e) => {
@@ -108,6 +126,7 @@ const Create = () => {
   position="top-center"
   reverseOrder={true}
 />
+<Tooltip id="my-tooltip" />
     { id ? <div className={style.bookDetail}>
         { img ? <img src={img} className={style.imgBook} onClick={() => setImg(null)}/> :
         <div className={style.noImgBook} onClick={() => setModal(true)}>
@@ -151,27 +170,41 @@ const Create = () => {
         </div>
         </div>
     </div> : <div className={style.bookDetail}>
-        { form.image ? <img src={form.image} className={style.imgBook} onClick={() => setImg(null)}/> :
-        <div className={style.noImgBook} onClick={() => setModal(true)}>
+        { form.image ? <img src={form.image} id="image" className={style.imgBook} onClick={() => setImg(null)}/> :
+        <div className={style.noImgBook} id="noimage" onClick={() => setModal(true)}>
           <AiOutlineCloudUpload className={style.iconUpload}/>
           <p className={style.textUpload}>Sube la portada de tu libro</p>
         </div>}
+        <Tooltip anchorSelect="#noimage" place='top' content={validation(form).image} isOpen={sms}/>
+        <Tooltip anchorSelect="#image" place='top' content={validation(form).image} isOpen={sms}/>
         <div className={style.bookResume}>
-        <input className={style.bookTitle} onChange={handleChange} name="title" placeholder='Titulo del libro'></input>
+        {/* <a id="title"> */}
+          <input id="title" className={style.bookTitle} onChange={handleChange} name="title" placeholder='Titulo del libro'></input>
+        {/* </a> */}
+        <Tooltip anchorSelect="#title" content={validation(form).title} isOpen={sms}/>
         <div className={style.authorContainer}>
           <img className={style.imgAuthor} src={`https://api.dicebear.com/5.x/avataaars/svg?seed=${user}`}/>
           <div className={style.authorData}>
-          <input onChange={(e) => {changeUser(e); handleChange(e)}} name="created" className={style.nameAuthor} placeholder='Autor'></input>
+          <input id="created" onChange={(e) => {changeUser(e); handleChange(e)}} name="created" className={style.nameAuthor} placeholder='Autor'></input>
+          <Tooltip anchorSelect="#created" place='top' content={validation(form).created} isOpen={sms}/>
           </div>
         </div>
-        <textarea className={style.descBook} onChange={handleChange} name="summary" placeholder='Escribe la descripción del libro'></textarea>
+        {/* <a id="summary"> */}
+        <textarea className={style.descBook} id='summary' onChange={handleChange} name="summary" placeholder='Escribe la descripción del libro'></textarea>
+        {/* </a> */}
+        <Tooltip anchorSelect="#summary" place='top' content={validation(form).summary} isOpen={sms}/>
         <div className={style.tagContainer}>
-        <p className={style.tag}>Idioma</p>
+        <p id="lang" className={style.tag}>Idioma</p>
+        {/* <a id="lang">} */}
         <Select name="lang" onChange={handleChangeLang} value={form.lang} options={lang}/>
+        {/* </a> */}
+        <Tooltip anchorSelect="#lang" content={validation(form).lang} isOpen={sms}/>
         {/* <input className={style.tagValue} onChange={handleChange} name="lang" placeholder='Ingresa el idioma del libro'></input> */}
         </div>
         <div className={style.tagContainer}>
-        <p className={style.tag}>Generos</p>
+        {/* <a id="genres"> */}
+        <p id="genres" className={style.tag}>Generos</p>
+        {/* </a> */}
         <Select
         onChange={changeGenre}
         value={form.genres}
@@ -181,6 +214,7 @@ const Create = () => {
     // className="basic-multi-select"
     classNamePrefix="select"
   />
+        <Tooltip anchorSelect="#genres" content={validation(form).genres} isOpen={sms}/>
         {/* <input className={style.tagValue} placeholder='Ingresa los generos'></input> */}
         </div>
         <div className={style.tagContainer}>

@@ -2,9 +2,12 @@ import { useState } from 'react';
 import style from './Modal.module.css'
 import axios from 'axios';
 import { Rating } from '@smastrom/react-rating'
+import {Tooltip} from "react-tooltip"
+import validation from './validation';
  
 const Modal = ({fn, url}) => {
   const [rating, setRating] = useState(0)
+  const [sms, setSms] = useState(false)
   const [form, setForm] = useState({
     rating: rating
   })
@@ -23,7 +26,13 @@ const Modal = ({fn, url}) => {
       rating:e
     })
   }
-  const sendReview = () => fn(form)
+  const sendReview = () => {
+    if(Object.entries(validation(form)).length == 0){
+    fn(form)
+    }else{
+      setSms(true)
+    }
+  }
   
   return(
     <>
@@ -38,8 +47,10 @@ const Modal = ({fn, url}) => {
     <div className={style.background}>
       <div className={style.modalContainer}>
         <h3 className={style.titleModal}>Nos encantaria saber tu opinion</h3>
-        <input name="name" onChange={handleChange} className={style.input} placeholder='¿Como te llamas?'></input>
-        <textarea className={style.content} placeholder="Cuentanos tu opinion del libro" name="content" onChange={handleChange}></textarea>
+        <input name="name" id="name" onChange={handleChange} className={style.input} placeholder='¿Como te llamas?'></input>
+        <Tooltip anchorSelect="#name" place='bottom' content={validation(form).name} isOpen={sms}/>
+        <textarea id="content" className={style.content} placeholder="Cuentanos tu opinion del libro" name="content" onChange={handleChange}></textarea>
+        <Tooltip anchorSelect="#content" place='bottom' content={validation(form).content} isOpen={sms}/>
         <Rating className={style.rating} name="rating" onChange={handleRatingChange} value={rating} />
         {/* <input name="rating" onChange={handleChange}></input> */}
         <button onClick={sendReview} className={style.button}>Enviar</button>
