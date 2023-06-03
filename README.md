@@ -33,6 +33,8 @@ npm run dev
 * [Redux](https://es.redux.js.org/) - Biblioteca de gestión de estado
 * Y otras librerias de React para facilitar la navegacion y experiencia.
 
+* [Repositorio del Back-End](https://github.com/edgarrios412/tecnica-back)
+
 ## Autor ✒️
 
 * **Edgar Vilchez** - [edgarrios412](https://github.com/edgarrios412)
