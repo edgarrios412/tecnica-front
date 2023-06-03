@@ -1,11 +1,6 @@
 import style from './Home.module.css'
 import Nav from "../../layout/Nav/Nav"
-import RatingStars from 'react-rating-stars-component';
 import {Link} from "react-router-dom"
-
-import libro1 from "../../../assets/libro1.jpg"
-import libro2 from "../../../assets/libro2.jpg"
-import libro4 from "../../../assets/libro4.jpg"
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,7 +34,7 @@ const Home = () => {
   const settings = {
     infinite: true,
     slidesToScroll: 1,
-    slidesToShow: 3,
+    slidesToShow: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
@@ -54,21 +49,6 @@ const Home = () => {
   } else if (window.innerWidth > 1200) {
     settings.slidesToShow = 3;
   }
-  const handleSize = () => {
-    setWidth(window.innerWidth)
-    if(width <= 1000){
-      // settings.slidesToShow = 1
-      // console.log(settings)
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener("resize", handleSize)
-
-    return()=> {
-      window.removeEventListener("resize", handleSize)
-    }
-  })
 
   const colors = ["#d5edb9","#c4bdf3","#fbe8a4","#ffc198","#fac9dc"]
 
@@ -101,6 +81,7 @@ const Home = () => {
     <>
       <Nav/>
       <h2 className={style.titleSection}>Para ti</h2>
+      <div style={{margin:"0px 50px"}}>
         <Slider {...settings}>
         {bestBooks?.slice(0,5).map( (book,index) => <Link className={style.noLink} to={`/book/${book.id}`}><div style={{backgroundColor:colors[index]}} className={style.bookPremium}>
           <img src={book.image} className={style.imgBookPremium}></img>
@@ -108,14 +89,10 @@ const Home = () => {
           <h3 className={style.titleBookPremium}>{book.title}</h3>
           <div className={style.autorBookPremium}>por {book.created}</div>
           <Rating style={{ maxWidth: 90, marginTop:"10px" }} readOnly value={book.promedio} />
-          {/* <div className={style.visitors}>
-            <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=yina" className={style.imgProfile}></img>
-            <img src="https://api.dicebear.com/5.x/avataaars/svg?seed=david" className={style.imgProfile}></img>
-            <div className={style.morePerson}>+38</div>
-          </div> */}
           </div>
         </div></Link>)}
         </Slider>
+        </div>
       <div className={style.filtros}>
       <h2 className={style.titleSection}>Busquedas</h2>
       <div className={style.inputContainer}>
@@ -127,7 +104,8 @@ const Home = () => {
         <option value="all" selected>Genero</option>
         <option value="accion">Accion</option>
         <option value="comedia">Comedia</option>
-        <option value="adultos">Drama</option>
+        <option value="drama">Drama</option>
+        <option value="adultos">Adultos</option>
       </select>
       <select name="lang" className={style.filtro} onChange={changeFilter}>
         <option value="all" selected>Idioma</option>
@@ -171,9 +149,6 @@ const Home = () => {
         }
       </motion.ul>
       </div>
-      { books.length >= 10 && <div className={style.pagination}>
-      <button className={style.buttonMoreBooks}>Cargar más</button>
-      </div>}
     </>
   )
 };

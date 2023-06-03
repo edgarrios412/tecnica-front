@@ -1,6 +1,5 @@
 import Nav from '../../layout/Nav/Nav';
 import style from './Create.module.css'
-import libro from "../../../assets/libro1.jpg" 
 import {AiOutlineCloudUpload} from "react-icons/ai"
 import { useEffect, useState } from 'react';
 import axios from "axios"
@@ -13,7 +12,6 @@ import {toast, Toaster} from "react-hot-toast"
 import validation from './validation';
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css';
-import { useRef } from 'react';
 
 const Create = () => {
   const [img, setImg] = useState(null);
@@ -65,7 +63,6 @@ const Create = () => {
   }
 
   const handleChangeLang = (e) => {
-    // const l = e.map(i => Number(i.value))
     setForm({
       ...form,
       lang: e
@@ -73,7 +70,6 @@ const Create = () => {
   }
 
   const changeGenre = (e) => {
-    // const genre = e.map(i => Number(i.value))
     setForm({
       ...form,
       genres: e
@@ -82,14 +78,12 @@ const Create = () => {
 
   const submit = () => {
     if(Object.entries(validation(form)).length == 0){
-      console.log(validation(form))
       axios.post("/book", form)
-      .then(() => toast.success('Libro creado exitosamente'),() => toast.error('Ha ocurrido un error'))
+      .then(() => {setTimeout(() =>navigate("/"),1500);toast.success('Libro creado exitosamente')},() => toast.error('Ha ocurrido un error'))
     }else{
       setSms(true)
       toast.error('Debes llenar el formulario')
     }
-    // setTimeout(() =>navigate("/"),2000)
   }
 
   const changeUser = (e) => {

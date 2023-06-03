@@ -1,7 +1,5 @@
 import Nav from '../../layout/Nav/Nav';
 import style from './Detail.module.css'
-import libro from "../../../assets/libro1.jpg"
-import RatingStars from 'react-rating-stars-component';
 import {BiUser} from "react-icons/bi"
 import Reviews from '../../layout/Reviews/Reviews';
 import { Rating } from '@smastrom/react-rating'
@@ -79,7 +77,6 @@ const Detail = () => {
           <p className={style.cantReview}><BiUser className={style.iconUser}/> <span className={style.cant}>{reviews?.length}</span></p>
         </div>
         <p className={style.descBook}>{book.summary}</p>
-        {/* <div className={style.}> */}
         <div className={style.tagContainer}>
         <p className={style.tag}>Idioma</p>
         <p className={style.tagValue}>{book.lang}</p>
@@ -92,9 +89,8 @@ const Detail = () => {
         <p className={style.tag}>Publicado</p>
         <p className={style.tagValue}>{book.date}</p>
         </div>
-        {/* </div> */}
         <div className={style.buttonsContainer}>
-          <button className={style.button}>Leer ahora</button>
+          {book?.url && <a target="_blank" href={book.url}><button className={style.button}>Leer ahora</button></a>}
           <Link to={`/edit/${id}`} ><button className={style.button2}>Editar</button></Link>
         </div>
         </div>

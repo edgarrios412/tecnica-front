@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import style from './Modal.module.css'
-import axios from 'axios';
 import { Rating } from '@smastrom/react-rating'
 import {Tooltip} from "react-tooltip"
 import validation from './validation';
@@ -52,7 +51,6 @@ const Modal = ({fn, url}) => {
         <textarea id="content" className={style.content} placeholder="Cuentanos tu opinion del libro" name="content" onChange={handleChange}></textarea>
         <Tooltip anchorSelect="#content" place='bottom' content={validation(form).content} isOpen={sms}/>
         <Rating className={style.rating} name="rating" onChange={handleRatingChange} value={rating} />
-        {/* <input name="rating" onChange={handleChange}></input> */}
         <button onClick={sendReview} className={style.button}>Enviar</button>
         <h4 className={style.disclaimer}>Recuerda que tu opinion está visible para todo el mundo, ten cuidado con lo que dices</h4>
       </div>
