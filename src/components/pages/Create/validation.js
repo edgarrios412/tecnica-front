@@ -24,10 +24,7 @@ const validation = (recipe) => {
         // if (recipe.image == null) {
             errors.image = "Debes colocar una imagen de portada";
         //   }
-    }else{
-    if (!imgRegexp.test(recipe.image)) {
-        errors.image = "Debes colocar una URL valida";
-    }}
+    }
   
     if (recipe.genres.length < 1) {
       errors.genres = "Debes seleccionar al menos 1 genero";
