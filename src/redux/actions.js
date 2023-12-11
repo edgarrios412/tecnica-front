@@ -1,4 +1,5 @@
 import axios from "axios"
+import api from "../../api"
 export const GET_BOOKS = "GET_BOOKS";
 export const GET_GENRES = "GET_GENRES";
 export const FIND_BOOKS = "FIND_BOOKS";
@@ -7,8 +8,7 @@ export const ORDER_BY = "ORDER_BY";
 
 export const getBooks = () => {
     return (dispatch) => {
-        axios.get(`/book/all`)
-        .then(data => dispatch({ type: GET_BOOKS, payload: data.data}))
+        dispatch({ type: GET_BOOKS, payload: api})
     }
 }
 

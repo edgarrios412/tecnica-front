@@ -10,7 +10,7 @@ import axios from "axios"
 import {AiOutlineSearch} from "react-icons/ai"
 import {MdOutlineClear} from "react-icons/md"
 import {motion} from "framer-motion"
-
+import api from "../../../../api"
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -61,11 +61,10 @@ const Home = () => {
     hidden:{ opacity:0, scale:0},
     show:{opacity:1, scale:1}
   }
-
   useEffect(() => {
     if(!search.length){
-    axios.get("/book/all")
-    .then(data => dispatch(getBooks(data.data)))
+      dispatch(getBooks(api))
+      console.log(api)
     }
   },[])
 

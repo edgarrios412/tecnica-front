@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { findBooks } from '../../../redux/actions';
 import { getBooks } from '../../../redux/actions';
 import {motion} from "framer-motion"
+import api from "../../../../api"
  
 const Detail = () => {
   const {id} = useParams()
@@ -23,8 +24,8 @@ const Detail = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    axios.get(`book/${id}`)
-    .then(data => setBook(data.data))
+    const libro = api.find(book => book.id == id)
+    setBook(libro)
     getReviews()
   },[])
 
